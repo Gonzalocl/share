@@ -46,9 +46,9 @@ echo "];";
 
 ims.sort();
 function cha() {
-document.getElementById('imgag').innerHTML = '<img src="' + ims[x] + '">'
-x = (x+1) % ims.length
-setTimeout(cha, 5500);
+  document.getElementById('imgag').innerHTML = '<img src="' + ims[x] + '">'
+  x = (x+1) % ims.length
+  setTimeout(cha, 5500);
 }
 //document.getElementById('imgag').webkitRequestFullscreen();
 setTimeout(cha, 0);
