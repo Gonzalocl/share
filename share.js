@@ -10,12 +10,7 @@ function loop () {
     };
     request.open("POST", "share_list_files", true);
     var req_data = {};
-    req_data.method = "listt";
-    req_data.dir = "one";
-    req_data.arr = [];
-    req_data.arr[0] = "zero";
-    req_data.arr[1] = "one";
-    req_data.arr[2] = "two";
+    req_data.dir = "/";
     request.send(JSON.stringify(req_data));
 }
 
