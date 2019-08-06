@@ -8,7 +8,7 @@ function loop () {
             document.getElementById('img_show').innerHTML = data.name;
         }
     };
-    request.open("GET", "demo.json", true);
+    request.open("GET", "share.php", true);
     request.send();
 }
 
