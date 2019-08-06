@@ -29,25 +29,19 @@ class RequestHandler(BaseHTTPRequestHandler):
       else:
         path = request["dir"][1:]
 
-      response = {
-        "list": os.listdir(path)
-      }
-      
-      self.send_response(200)
-      self.end_headers()
-      self.wfile.write(json.dumps(response).encode())
+      if request["thumbnail"]:
+        response = {
+          "list": []
+        }
+        for d in os.listdir(path):
+          print(d)
 
-    elif self.path == "/share_get_thumbnail":
-      print(self.rfile.read(int(self.headers['Content-Length'])))
-      response = {
-        "name": "Gonzalo",
-        "dir": "24",
-        "arr": [
-          "one",
-          "two",
-          "tree"
-        ]
-      }
+      else:
+        response = {
+          "list": os.listdir(path)
+        }
+
+
       self.send_response(200)
       self.end_headers()
       self.wfile.write(json.dumps(response).encode())

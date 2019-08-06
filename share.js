@@ -11,6 +11,7 @@ function loop () {
     request.open("POST", "share_list_files", true);
     var req_data = {};
     req_data.dir = "/";
+    req_data.thumbnail = true;
     request.send(JSON.stringify(req_data));
 }
 
