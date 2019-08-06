@@ -4,6 +4,13 @@ import json
 
 port = 8080
 
+img_file_ext = ["jpg", "jpeg", "png"]
+
+def find_thumbnail(path):
+  for f in os.listdir(path):
+    if f.split(".")[-1].lower() in img_file_ext:
+      return path + "/" + f
+  return ""
 
 class RequestHandler(BaseHTTPRequestHandler):
 
@@ -34,13 +41,16 @@ class RequestHandler(BaseHTTPRequestHandler):
           "list": []
         }
         for d in os.listdir(path):
-          print(d)
+          full_path = path + "/" + d
+          if os.path.isfile(full_path):
+            response["list"].append({"path": full_path, "thumbnail": ""})
+          else:
+            response["list"].append({"path": full_path, "thumbnail": find_thumbnail(full_path)})
 
       else:
         response = {
-          "list": os.listdir(path)
+          "list": [path + "/" + d for d in os.listdir(path)]
         }
-
 
       self.send_response(200)
       self.end_headers()
