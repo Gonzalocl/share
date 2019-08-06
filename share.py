@@ -22,11 +22,17 @@ class RequestHandler(BaseHTTPRequestHandler):
   def do_POST(self):
 
     if self.path == "/share_list_files":
-      print(self.rfile.read(int(self.headers['Content-Length'])))
+      request = json.loads(self.rfile.read(int(self.headers['Content-Length'])))
+
+      if request["dir"] == "/":
+        path = "."
+      else:
+        path = request["dir"][1:]
+
       response = {
-        "name": "Gonzalo",
-        "dir": "24"
+        "list": os.listdir(path)
       }
+      
       self.send_response(200)
       self.end_headers()
       self.wfile.write(json.dumps(response).encode())
