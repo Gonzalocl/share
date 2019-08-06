@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILES="share.php sl.php"
+FILES="share.html share.js share.php"
 
 cp $FILES /var/www/html
 
