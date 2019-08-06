@@ -18,6 +18,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     else:
       self.send_error(404, "File Not Found")
 
+
   def do_POST(self):
 
     if self.path == "/share_list_files":
@@ -46,7 +47,15 @@ class RequestHandler(BaseHTTPRequestHandler):
       self.wfile.write(json.dumps(response).encode())
 
     else:
-      self.send_error(404, "File Not Found")
+      if os.access(self.path[1:], os.R_OK):
+        with open(self.path[1:], "rb") as f:
+          self.send_response(200)
+          self.end_headers()
+          self.wfile.write(f.read())
+
+      else:
+        self.send_error(404, "File Not Found")
+
 
 
 server = HTTPServer(('localhost', port), RequestHandler)
