@@ -4,11 +4,13 @@ import json
 import urllib.parse
 import tempfile
 import threading
+from PIL import Image
 
 port = 8080
 
 img_file_ext = ["jpg", "jpeg", "png"]
 
+thumbnail_size = (512, 512)
 
 class ThumbnailCache:
 
@@ -37,8 +39,24 @@ class ThumbnailCache:
     return thumbnail_path
 
   def get_thumbnail_data(self, thumbnail_path):
-
-    pass
+    self.lock.acquire()
+    processed, path = self.inv_cache[thumbnail_path]
+    self.lock.release()
+    if not processed:
+      self.lock.acquire()
+      self.cache[path] = (True, thumbnail_path)
+      self.inv_cache[thumbnail_path] = (True, path)
+      self.processed += 1
+      self.lock.release()
+      img = Image.open(path)
+      img.thumbnail(thumbnail_size, Image.ANTIALIAS)
+      img.save(thumbnail_path, "JPEG")
+      print("Cache : " + str(self.cache_size) + "; Processed miss : " + str(self.processed))
+    else:
+      print("Cache : " + str(self.cache_size) + "; Processed hit : " + str(self.processed))
+      
+    with open(thumbnail_path, "rb") as f:
+      return f.read()
 
   def is_thumbnail(self, thumbnail_path):
     self.lock.acquire()
