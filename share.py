@@ -2,10 +2,31 @@ import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import urllib.parse
+import tempfile
 
 port = 8080
 
 img_file_ext = ["jpg", "jpeg", "png"]
+
+
+class ThumbnailCache:
+
+  def __init__(self):
+    self.tmp_dir = tempfile.mkdtemp()
+
+  def get_thumbnail_name(self, path):
+    print("################################")
+    print(path)
+    print(self.tmp_dir)
+    return path
+
+  def get_thumbnail_data(self, path):
+    pass
+
+  def is_thumbnail(self, path):
+    pass
+
+thumbnail_cache = ThumbnailCache()
 
 def find_thumbnail(path):
   if not os.access(path, os.R_OK):
@@ -13,7 +34,7 @@ def find_thumbnail(path):
     return ""
   for f in os.listdir(path):
     if f.split(".")[-1].lower() in img_file_ext:
-      return path + "/" + f
+      return thumbnail_cache.get_thumbnail_name(path + "/" + f)
   # TODO return folder thumbnail
   return ""
 
