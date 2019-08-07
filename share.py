@@ -14,6 +14,7 @@ def find_thumbnail(path):
   for f in os.listdir(path):
     if f.split(".")[-1].lower() in img_file_ext:
       return path + "/" + f
+  # TODO return folder thumbnail
   return ""
 
 class RequestHandler(BaseHTTPRequestHandler):
@@ -49,6 +50,7 @@ class RequestHandler(BaseHTTPRequestHandler):
           for d in os.listdir(path):
             full_path = path + "/" + d
             if os.path.isfile(full_path):
+              # TODO thumbnail
               response["list"].append({"path": d, "thumbnail": ""})
             else:
               response["list"].append({"path": d, "thumbnail": find_thumbnail(full_path)})
