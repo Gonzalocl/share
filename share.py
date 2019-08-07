@@ -21,27 +21,34 @@ class ThumbnailCache:
     self.processed = 0
 
   def get_thumbnail_name(self, path):
-    self.lock.acquire()
     if path in self.cache:
+      self.lock.acquire()
       _, thumbnail_path = self.cache[path]
+      self.lock.release()
       print("Cache hit : " + str(self.cache_size) + "; Processed : " + str(self.processed))
     else:
       _, thumbnail_path = tempfile.mkstemp(suffix=".jpg", dir=self.tmp_dir)
+      self.lock.acquire()
       self.cache[path] = (False, thumbnail_path)
       self.inv_cache[thumbnail_path] = (False, path)
       self.cache_size += 1
+      self.lock.release()
       print("Cache miss : " + str(self.cache_size) + "; Processed : " + str(self.processed))
-    self.lock.release()
     return thumbnail_path
 
-  def get_thumbnail_data(self, path):
+  def get_thumbnail_data(self, thumbnail_path):
+
     pass
 
-  def is_thumbnail(self, path):
-    splitted = path.split("/")
-    if splitted.__len__() < 3:
-      return False
-    return splitted[1] == 'tmp' and ("/tmp/" + splitted[2]) == self.tmp_dir
+  def is_thumbnail(self, thumbnail_path):
+    self.lock.acquire()
+    ret = thumbnail_path in self.inv_cache
+    self.lock.release()
+    return ret
+    # splitted = thumbnail_path.split("/")
+    # if splitted.__len__() < 3:
+    #   return False
+    # return splitted[1] == 'tmp' and ("/tmp/" + splitted[2]) == self.tmp_dir
 
 thumbnail_cache = ThumbnailCache()
 
