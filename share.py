@@ -138,7 +138,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     else:
       path = urllib.parse.unquote(self.path)
-      if os.access(path[1:], os.R_OK):
+      if thumbnail_cache.is_thumbnail(path):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(thumbnail_cache.get_thumbnail_data(path))
+      elif os.access(path[1:], os.R_OK):
         with open(path[1:], "rb") as f:
           self.send_response(200)
           self.end_headers()
