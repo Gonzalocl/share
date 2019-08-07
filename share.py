@@ -41,22 +41,27 @@ class RequestHandler(BaseHTTPRequestHandler):
       else:
         path = request["dir"][1:]
 
-      if request["thumbnail"]:
+      if os.access(path, os.R_OK):
+        if request["thumbnail"]:
+          response = {
+            "list": []
+          }
+          for d in os.listdir(path):
+            full_path = path + "/" + d
+            if os.path.isfile(full_path):
+              response["list"].append({"path": d, "thumbnail": ""})
+            else:
+              response["list"].append({"path": d, "thumbnail": find_thumbnail(full_path)})
+
+        else:
+          response = {
+            "list": os.listdir(path)
+          }
+      else:
         response = {
           "list": []
         }
-        for d in os.listdir(path):
-          full_path = path + "/" + d
-          if os.path.isfile(full_path):
-            response["list"].append({"path": d, "thumbnail": ""})
-          else:
-            response["list"].append({"path": d, "thumbnail": find_thumbnail(full_path)})
-
-      else:
-        response = {
-          "list": os.listdir(path)
-        }
-
+      
       self.send_response(200)
       self.end_headers()
       self.wfile.write(json.dumps(response).encode())

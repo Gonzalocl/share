@@ -35,6 +35,7 @@ function show_dir (path) {
     request.open("POST", "share_list_files", true);
     var req_data = {};
     req_data.dir = path;
+    // TODO response is different if this is false
     req_data.thumbnail = true;
     request.send(JSON.stringify(req_data));
 }
