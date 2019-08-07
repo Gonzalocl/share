@@ -29,7 +29,7 @@ function show_dir (path) {
 
                 item_div.setAttribute("onClick", 'un_click("' + path + '", "' + data.list[d].path + '")');
             }
-            document.getElementById('controls').innerHTML = path;
+            document.getElementById('full_dirname').innerHTML = path;
         }
     };
     request.open("POST", "share_list_files", true);
