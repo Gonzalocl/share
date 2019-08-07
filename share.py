@@ -24,13 +24,13 @@ class ThumbnailCache:
     self.lock.acquire()
     if path in self.cache:
       _, thumbnail_path = self.cache[path]
-      print("Cache hit : " + self.cache_size + "; Processed : " + self.processed)
+      print("Cache hit : " + str(self.cache_size) + "; Processed : " + str(self.processed))
     else:
       _, thumbnail_path = tempfile.mkstemp(suffix=".jpg", dir=self.tmp_dir)
       self.cache[path] = (False, thumbnail_path)
       self.inv_cache[thumbnail_path] = (False, path)
       self.cache_size += 1
-      print("Cache miss : " + self.cache_size + "; Processed : " + self.processed)
+      print("Cache miss : " + str(self.cache_size) + "; Processed : " + str(self.processed))
     self.lock.release()
     return thumbnail_path
 
@@ -38,7 +38,10 @@ class ThumbnailCache:
     pass
 
   def is_thumbnail(self, path):
-    pass
+    splitted = path.split("/")
+    if splitted.__len__() < 3:
+      return False
+    return splitted[1] == 'tmp' and ("/tmp/" + splitted[2]) == self.tmp_dir
 
 thumbnail_cache = ThumbnailCache()
 
@@ -57,7 +60,11 @@ class RequestHandler(BaseHTTPRequestHandler):
   def do_GET(self):
 
     path = urllib.parse.unquote(self.path)
-    if os.access(path[1:], os.R_OK):
+    if thumbnail_cache.is_thumbnail(path):
+      self.send_response(200)
+      self.end_headers()
+      self.wfile.write(thumbnail_cache.get_thumbnail_data(path))
+    elif os.access(path[1:], os.R_OK):
       with open(path[1:], "rb") as f:
         self.send_response(200)
         self.end_headers()
