@@ -27,7 +27,7 @@ class ThumbnailCache:
       self.lock.acquire()
       _, thumbnail_path = self.cache[path]
       self.lock.release()
-      print("Cache hit : " + str(self.cache_size) + "; Processed : " + str(self.processed))
+      # print("Cache hit : " + str(self.cache_size) + "; Processed : " + str(self.processed))
     else:
       _, thumbnail_path = tempfile.mkstemp(suffix=".jpg", dir=self.tmp_dir)
       self.lock.acquire()
@@ -35,7 +35,7 @@ class ThumbnailCache:
       self.inv_cache[thumbnail_path] = (False, path)
       self.cache_size += 1
       self.lock.release()
-      print("Cache miss : " + str(self.cache_size) + "; Processed : " + str(self.processed))
+      # print("Cache miss : " + str(self.cache_size) + "; Processed : " + str(self.processed))
     return thumbnail_path
 
   def get_thumbnail_data(self, thumbnail_path):
@@ -51,10 +51,10 @@ class ThumbnailCache:
       img = Image.open(path)
       img.thumbnail(thumbnail_size, Image.ANTIALIAS)
       img.save(thumbnail_path, "JPEG")
-      print("Cache : " + str(self.cache_size) + "; Processed miss : " + str(self.processed))
-    else:
-      print("Cache : " + str(self.cache_size) + "; Processed hit : " + str(self.processed))
-      
+      # print("Cache : " + str(self.cache_size) + "; Processed miss : " + str(self.processed))
+    # else:
+    #   print("Cache : " + str(self.cache_size) + "; Processed hit : " + str(self.processed))
+
     with open(thumbnail_path, "rb") as f:
       return f.read()
 
