@@ -13,6 +13,7 @@ function show_dir (path) {
 
                 var name_div = document.createElement("div");
 //                name_div.className = "marquee";
+                name_div.className = "item_name";
                 name_div.innerHTML = data.list[d].path;
 
                 var item_div = document.createElement("div");

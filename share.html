@@ -7,13 +7,29 @@
 <body>
 
 <style>
+
+body {
+    background-color: black;
+}
+
+div.controls {
+    background-color: blue;
+}
+
 div.item {
     display: inline-block;
-    background-color: blue;
+    background-color: grey;
     width: 150px;
     height: 150px;
     border: 2px solid black;
     overflow: hidden;
+    position: relative;
+}
+
+div.item_name {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
 }
 
 .marquee {
