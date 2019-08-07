@@ -1,7 +1,11 @@
 
 
 function un_click(dirname, filename) {
-    show_dir(dirname + "/" + filename);
+    if (dirname == "/") {
+        show_dir("/" + filename);
+    } else {
+        show_dir(dirname + "/" + filename);
+    }
 }
 
 function show_dir (path) {
