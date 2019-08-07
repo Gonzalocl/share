@@ -1,11 +1,16 @@
 
 
+function un_click(dirname, filename) {
+    show_dir(dirname + "/" + filename);
+}
+
 function show_dir (path) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
             var select_div = document.getElementById('select');
+            select_div.innerHTML = "";
             for (d in data.list) {
 
                 var thumbnail_img = document.createElement("img");
@@ -21,6 +26,8 @@ function show_dir (path) {
                 item_div.appendChild(thumbnail_img);
                 item_div.appendChild(name_div);
                 select_div.appendChild(item_div);
+
+                item_div.setAttribute("onClick", 'un_click("' + path + '", "' + data.list[d].path + '")');
             }
             document.getElementById('controls').innerHTML = path;
         }
