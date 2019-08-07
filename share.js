@@ -7,9 +7,18 @@ function show_dir (path) {
             var data = JSON.parse(this.responseText);
             var select_div = document.getElementById('select');
             for (d in data.list) {
+
+                var thumbnail_img = document.createElement("img");
+                thumbnail_img.setAttribute("src", encodeURI(data.list[d].thumbnail));
+
+                var name_div = document.createElement("div");
+//                name_div.className = "marquee";
+                name_div.innerHTML = data.list[d].path;
+
                 var item_div = document.createElement("div");
-                item_div.innerHTML = data.list[d].path;
                 item_div.className = "item";
+                item_div.appendChild(thumbnail_img);
+                item_div.appendChild(name_div);
                 select_div.appendChild(item_div);
             }
             document.getElementById('controls').innerHTML = path;
