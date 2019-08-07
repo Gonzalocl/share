@@ -117,8 +117,11 @@ class RequestHandler(BaseHTTPRequestHandler):
           for d in os.listdir(path):
             full_path = path + "/" + d
             if os.path.isfile(full_path):
-              # TODO thumbnail
-              response["list"].append({"path": d, "thumbnail": ""})
+              if full_path.split(".")[-1].lower() in img_file_ext:
+                response["list"].append({"path": d, "thumbnail": thumbnail_cache.get_thumbnail_name(full_path)})
+              else:
+                # TODO unknown file format thumbnail
+                response["list"].append({"path": d, "thumbnail": ""})
             else:
               response["list"].append({"path": d, "thumbnail": find_thumbnail(full_path)})
 
