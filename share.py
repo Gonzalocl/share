@@ -8,6 +8,9 @@ port = 8080
 img_file_ext = ["jpg", "jpeg", "png"]
 
 def find_thumbnail(path):
+  if not os.access(path, os.R_OK):
+    # TODO return no access thumbnail
+    return ""
   for f in os.listdir(path):
     if f.split(".")[-1].lower() in img_file_ext:
       return path + "/" + f
