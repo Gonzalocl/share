@@ -68,7 +68,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 
 
-server = HTTPServer(('localhost', port), RequestHandler)
+server = HTTPServer(('', port), RequestHandler)
 server.serve_forever()
 
 
