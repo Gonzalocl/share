@@ -11,7 +11,6 @@ function show_dir (path) {
                 item_div.innerHTML = data.list[d].path;
                 item_div.className = "item";
                 select_div.appendChild(item_div);
-                select_div.appendChild(document.createTextNode(" "));
             }
             document.getElementById('controls').innerHTML = path;
         }
