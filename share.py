@@ -58,10 +58,11 @@ class RequestHandler(BaseHTTPRequestHandler):
             "list": os.listdir(path)
           }
       else:
+        # TODO return no access thumbnail
         response = {
           "list": []
         }
-      
+
       self.send_response(200)
       self.end_headers()
       self.wfile.write(json.dumps(response).encode())
