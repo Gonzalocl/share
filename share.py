@@ -1,6 +1,7 @@
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+import urllib.parse
 
 port = 8080
 
@@ -16,8 +17,9 @@ class RequestHandler(BaseHTTPRequestHandler):
 
   def do_GET(self):
 
-    if os.access(self.path[1:], os.R_OK):
-      with open(self.path[1:], "rb") as f:
+    path = urllib.parse.unquote(self.path)
+    if os.access(path[1:], os.R_OK):
+      with open(path[1:], "rb") as f:
         self.send_response(200)
         self.end_headers()
         self.wfile.write(f.read())
@@ -57,8 +59,9 @@ class RequestHandler(BaseHTTPRequestHandler):
       self.wfile.write(json.dumps(response).encode())
 
     else:
-      if os.access(self.path[1:], os.R_OK):
-        with open(self.path[1:], "rb") as f:
+      path = urllib.parse.unquote(self.path)
+      if os.access(path[1:], os.R_OK):
+        with open(path[1:], "rb") as f:
           self.send_response(200)
           self.end_headers()
           self.wfile.write(f.read())
