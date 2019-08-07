@@ -41,4 +41,18 @@ function show_dir (path) {
 }
 
 
-show_dir ("/links");
+show_dir("/links");
+
+
+function parent_folder() {
+    var path = document.getElementById('full_dirname').innerHTML;
+    var split_path = path.split("/");
+    var end = 1;
+    if (split_path.length > 2) {
+        end = (path.length - split_path[split_path.length-1].length)-1;
+    }
+    path = path.slice(0, end);
+    show_dir(path);
+}
+
+
