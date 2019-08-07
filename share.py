@@ -3,6 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import urllib.parse
 import tempfile
+import threading
 
 port = 8080
 
@@ -13,12 +14,25 @@ class ThumbnailCache:
 
   def __init__(self):
     self.tmp_dir = tempfile.mkdtemp()
+    self.lock = threading.Lock()
+    self.cache = dict()
+    self.inv_cache = dict()
+    self.cache_size = 0
+    self.processed = 0
 
   def get_thumbnail_name(self, path):
-    print("################################")
-    print(path)
-    print(self.tmp_dir)
-    return path
+    self.lock.acquire()
+    if path in self.cache:
+      _, thumbnail_path = self.cache[path]
+      print("Cache hit : " + self.cache_size + "; Processed : " + self.processed)
+    else:
+      _, thumbnail_path = tempfile.mkstemp(suffix=".jpg", dir=self.tmp_dir)
+      self.cache[path] = (False, thumbnail_path)
+      self.inv_cache[thumbnail_path] = (False, path)
+      self.cache_size += 1
+      print("Cache miss : " + self.cache_size + "; Processed : " + self.processed)
+    self.lock.release()
+    return thumbnail_path
 
   def get_thumbnail_data(self, path):
     pass
