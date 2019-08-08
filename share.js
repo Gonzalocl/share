@@ -25,10 +25,12 @@ function show_dir(path) {
                 item_div.className = "item";
                 select_div.appendChild(item_div);
 
-                var thumbnail_img = document.createElement("img");
-                thumbnail_img.setAttribute("src", encodeURI(data.list[d].thumbnail));
-                thumbnail_img.className = "thumbnail"
-                item_div.appendChild(thumbnail_img);
+                if (data.list[d].thumbnail != "") {
+                    var thumbnail_img = document.createElement("img");
+                    thumbnail_img.setAttribute("src", encodeURI(data.list[d].thumbnail));
+                    thumbnail_img.className = "thumbnail"
+                    item_div.appendChild(thumbnail_img);
+                }
 
                 var name_div = document.createElement("div");
 //                name_div.className = "marquee";
