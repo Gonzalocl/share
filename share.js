@@ -17,11 +17,15 @@ function show_dir(path) {
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
+
             var img_show_div = document.getElementById('img_show');
             img_show_div.innerHTML = "";
+
             var select_div = document.getElementById('select');
             select_div.innerHTML = "";
+
             document.getElementById("controls").style.display = "block";
+
             for (d in data.list) {
 
                 var item_div = document.createElement("div");
