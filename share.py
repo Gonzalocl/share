@@ -118,12 +118,12 @@ class RequestHandler(BaseHTTPRequestHandler):
             full_path = path + "/" + d
             if os.path.isfile(full_path):
               if full_path.split(".")[-1].lower() in img_file_ext:
-                response["list"].append({"path": d, "thumbnail": thumbnail_cache.get_thumbnail_name(full_path)})
+                response["list"].append({"path": d, "thumbnail": thumbnail_cache.get_thumbnail_name(full_path), "type": "img_file"})
               else:
                 # TODO unknown file format thumbnail
-                response["list"].append({"path": d, "thumbnail": ""})
+                response["list"].append({"path": d, "thumbnail": "", "type": "file"})
             else:
-              response["list"].append({"path": d, "thumbnail": find_thumbnail(full_path)})
+              response["list"].append({"path": d, "thumbnail": find_thumbnail(full_path), "type": "folder"})
 
         else:
           response = {
