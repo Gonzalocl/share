@@ -21,20 +21,21 @@ function show_dir(path) {
             select_div.innerHTML = "";
             for (d in data.list) {
 
+                var item_div = document.createElement("div");
+                item_div.className = "item";
+                select_div.appendChild(item_div);
+
                 var thumbnail_img = document.createElement("img");
                 thumbnail_img.setAttribute("src", encodeURI(data.list[d].thumbnail));
                 thumbnail_img.className = "thumbnail"
+                item_div.appendChild(thumbnail_img);
 
                 var name_div = document.createElement("div");
 //                name_div.className = "marquee";
                 name_div.className = "item_name";
                 name_div.innerHTML = data.list[d].path;
-
-                var item_div = document.createElement("div");
-                item_div.className = "item";
-                item_div.appendChild(thumbnail_img);
                 item_div.appendChild(name_div);
-                select_div.appendChild(item_div);
+
 
                 if (data.list[d].type == "folder") {
                     item_div.setAttribute("onClick", 'folder_click("' + path + '", "' + data.list[d].path + '")');
