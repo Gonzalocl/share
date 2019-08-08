@@ -9,10 +9,10 @@ function folder_click(dirname, filename) {
 }
 
 function img_file_click(dirname, filename) {
-    console.log("img_file_click");
+    show_img_file(dirname + "/" + filename);
 }
 
-function show_dir (path) {
+function show_dir(path) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -23,6 +23,7 @@ function show_dir (path) {
 
                 var thumbnail_img = document.createElement("img");
                 thumbnail_img.setAttribute("src", encodeURI(data.list[d].thumbnail));
+                thumbnail_img.className = "thumbnail"
 
                 var name_div = document.createElement("div");
 //                name_div.className = "marquee";
