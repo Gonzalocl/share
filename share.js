@@ -17,6 +17,8 @@ function show_dir(path) {
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
+            var img_show_div = document.getElementById('img_show');
+            img_show_div.innerHTML = "";
             var select_div = document.getElementById('select');
             select_div.innerHTML = "";
             for (d in data.list) {
@@ -56,6 +58,19 @@ function show_dir(path) {
     request.send(JSON.stringify(req_data));
 }
 
+function show_img_file(path) {
+    var select_div = document.getElementById('select');
+    select_div.innerHTML = "";
+
+    var img_show_div = document.getElementById('img_show');
+    img_show_div.innerHTML = "";
+
+    var img_file = document.createElement("img");
+    img_file.setAttribute("src", encodeURI(path));
+    img_show_div.appendChild(img_file);
+
+    document.getElementById('full_dirname').innerHTML = path;
+}
 
 show_dir("/links");
 
