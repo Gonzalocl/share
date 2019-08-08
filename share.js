@@ -66,6 +66,7 @@ function show_img_file(path) {
     img_show_div.innerHTML = "";
 
     var img_file = document.createElement("img");
+    img_file.className = "img_show";
     img_file.setAttribute("src", encodeURI(path));
     img_show_div.appendChild(img_file);
 
