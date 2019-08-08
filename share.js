@@ -21,6 +21,7 @@ function show_dir(path) {
             img_show_div.innerHTML = "";
             var select_div = document.getElementById('select');
             select_div.innerHTML = "";
+            document.getElementById("controls").style.display = "block";
             for (d in data.list) {
 
                 var item_div = document.createElement("div");
@@ -64,6 +65,8 @@ function show_img_file(path) {
 
     var img_show_div = document.getElementById('img_show');
     img_show_div.innerHTML = "";
+
+    document.getElementById("controls").style.display = "none";
 
     var img_file = document.createElement("img");
     img_file.className = "img_show";
