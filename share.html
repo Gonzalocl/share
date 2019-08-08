@@ -2,8 +2,6 @@
 
 </head>
 
-<script src="share.js"></script>
-
 <body>
 
 <style>
@@ -33,6 +31,13 @@ div#parent_folder {
 }
 
 div#play_btn {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: black;
+}
+
+div#full_screen {
     display: inline-block;
     width: 30px;
     height: 30px;
@@ -109,6 +114,7 @@ img.img_show {
         <div id="full_dirname"></div>
         <div id="parent_folder" onclick="parent_folder()"></div>
         <div id="play_btn"></div>
+        <div id="full_screen" onclick="full_screen()"></div>
         <div id="settings"></div>
 
     </div>
@@ -119,6 +125,9 @@ img.img_show {
 
     </div>
 </div>
+
+<script src="share.js"></script>
+
 </body>
 
 
