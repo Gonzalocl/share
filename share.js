@@ -17,6 +17,21 @@ function show_dir(path) {
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
+            console.log(JSON.stringify(data.list));
+            data.list.sort(function (a, b) {
+                if (a.type == b.type) {
+                    if (a.path < b.path) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                } else if (a.type < b.type) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+            console.log(JSON.stringify(data.list));
 
             var img_show_div = document.getElementById('img_show');
             img_show_div.innerHTML = "";
@@ -46,9 +61,9 @@ function show_dir(path) {
                 item_div.appendChild(name_div);
 
 
-                if (data.list[d].type == "folder") {
+                if (data.list[d].type == "00_folder") {
                     item_div.setAttribute("onClick", 'folder_click("' + path + '", "' + data.list[d].path + '")');
-                } else if (data.list[d].type == "img_file") {
+                } else if (data.list[d].type == "01_img_file") {
                     item_div.setAttribute("onClick", 'img_file_click("' + path + '", "' + data.list[d].path + '")');
                 }
             }
