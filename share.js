@@ -236,3 +236,5 @@ gesture_lay.ontouchend = function (e) {
         console.log("gesture unrecognised");
     }
 };
+
+gesture_lay.onclick = parent_folder;
