@@ -29,7 +29,8 @@ class ThumbnailCache:
       self.lock.release()
       # print("Cache hit : " + str(self.cache_size) + "; Processed : " + str(self.processed))
     else:
-      _, thumbnail_path = tempfile.mkstemp(suffix=".jpg", dir=self.tmp_dir)
+      tmp_fd, thumbnail_path = tempfile.mkstemp(suffix=".jpg", dir=self.tmp_dir)
+      os.close(tmp_fd)
       self.lock.acquire()
       self.cache[path] = (False, thumbnail_path)
       self.inv_cache[thumbnail_path] = (False, path)
