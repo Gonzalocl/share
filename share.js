@@ -83,6 +83,7 @@ function show_dir(path) {
     // TODO response is different if this is false
     req_data.thumbnail = true;
     request.send(JSON.stringify(req_data));
+    full_screen_off();
 }
 
 function show_img_file(path) {
@@ -101,6 +102,7 @@ function show_img_file(path) {
 
     document.getElementById('full_dirname').innerHTML = path;
     set_gestures();
+    full_screen_on();
 }
 
 show_dir("/links");
@@ -153,39 +155,42 @@ function img_show_play_pause() {
     }
 }
 
-// from
-// https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
-document.getElementById("full_screen").onclick = full_screen;
-function full_screen() {
-  // if already full screen; exit
-  // else go fullscreen
-  if (
-    document.fullscreenElement ||
-    document.webkitFullscreenElement ||
-    document.mozFullScreenElement ||
-    document.msFullscreenElement
-  ) {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  } else {
+function full_screen_on() {
     var element = document.getElementsByTagName('body')[0];
     if (element.requestFullscreen) {
-      element.requestFullscreen();
+        element.requestFullscreen();
     } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
+        element.mozRequestFullScreen();
     } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
     } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
+        element.msRequestFullscreen();
     }
-  }
+}
+
+function full_screen_off() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
+
+function full_screen() {
+    if (
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+    ) {
+        full_screen_off();
+    } else {
+        full_screen_on();
+    }
 };
 
 
@@ -261,7 +266,7 @@ gesture_lay.ontouchend = function (e) {
                 console.log("swipe u");
 //                alert("swipe u");
                 img_show_pause();
-                full_screen()
+                parent_folder();
             }
         } else {
             if (start_x < end_x) {
