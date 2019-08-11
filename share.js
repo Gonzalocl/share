@@ -56,7 +56,7 @@ function show_dir(path) {
 
                 if (data.list[d].thumbnail != "") {
                     var thumbnail_img = document.createElement("img");
-                    thumbnail_img.setAttribute("src", encodeURI(data.list[d].thumbnail));
+                    thumbnail_img.setAttribute("src", encodeURIComponent(data.list[d].thumbnail.slice(1)));
                     thumbnail_img.className = "thumbnail"
                     item_div.appendChild(thumbnail_img);
                 }
@@ -97,7 +97,7 @@ function show_img_file(path) {
 
     var img_file = document.createElement("img");
     img_file.className = "img_show";
-    img_file.setAttribute("src", encodeURI(path));
+    img_file.setAttribute("src", encodeURIComponent(path.slice(1)));
     img_show_div.appendChild(img_file);
 
     document.getElementById('full_dirname').innerHTML = path;
