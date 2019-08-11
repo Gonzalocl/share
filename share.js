@@ -205,19 +205,30 @@ gesture_lay.ontouchend = function (e) {
     var difference_x = Math.abs(start_x - end_x);
     var difference_y = Math.abs(start_y - end_y);
     if (difference_x < click_threshold && difference_y < click_threshold) {
-        full_screen()
-        console.log("click " + window.innerWidth);
+        if (start_x < window.innerWidth/3) {
+            console.log("click l");
+            prev_img();
+        } else if (start_x > window.innerWidth/3*2) {
+            console.log("click r");
+            next_img();
+        } else {
+            console.log("click c");
+        }
     } else if (Math.abs(difference_x - difference_y) > swipe_threshold) {
         if (difference_x < difference_y) {
             if (start_y < end_y) {
+                console.log("swipe d");
                 parent_folder();
             } else {
+                console.log("swipe u");
                 full_screen()
             }
         } else {
             if (start_x < end_x) {
+                console.log("swipe r");
                 prev_img();
             } else {
+                console.log("swipe l");
                 next_img();
             }
         }
