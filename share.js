@@ -1,7 +1,8 @@
 
 
 var img_index;
-var img_list = [];
+var img_list;
+var img_dirname;
 
 function folder_click(dirname, filename) {
     if (dirname == "/") {
@@ -44,6 +45,7 @@ function show_dir(path) {
             document.getElementById("controls").style.display = "block";
 
             img_list = [];
+            img_dirname = path;
             for (d in data.list) {
 
                 var item_div = document.createElement("div");
@@ -66,7 +68,6 @@ function show_dir(path) {
                 if (data.list[d].type == "00_folder") {
                     item_div.setAttribute("onClick", 'folder_click("' + path + '", "' + data.list[d].path + '")');
                 } else if (data.list[d].type == "01_img_file") {
-                    console.log();
                     item_div.setAttribute("onClick", 'img_file_click("' + path + '", ' + (img_list.push(data.list[d].path)-1) + ')');
                 }
             }
@@ -112,6 +113,16 @@ function parent_folder() {
     }
     path = path.slice(0, end);
     show_dir(path);
+}
+
+function next_img() {
+    img_index = (img_index + 1) % img_list.length;
+    show_img_file(img_dirname + "/" + img_list[img_index]);
+}
+
+function prev_img() {
+    img_index = (img_index - 1) % img_list.length;
+    show_img_file(img_dirname + "/" + img_list[img_index]);
 }
 
 // from
@@ -205,9 +216,9 @@ gesture_lay.ontouchend = function (e) {
             }
         } else {
             if (start_x < end_x) {
-                console.log("swipe l");
+                prev_img();
             } else {
-                console.log("swipe r");
+                next_img();
             }
         }
     } else {
