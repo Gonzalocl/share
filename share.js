@@ -131,6 +131,16 @@ function full_screen() {
   }
 };
 
+
+/*
+1 tap center  : play/pause
+2 tap         : toggle full screen
+1 tap R/L     : next/prev
+swipe R/L     : next/prev
+swipe up      : toggle full screen
+swipe down    : parent folder
+*/
+
 function set_gestures() {
     var gesture_lay = document.getElementById('gesture_lay');
     gesture_lay.style.display = "block";
@@ -158,17 +168,14 @@ gesture_lay.onmousedown = function (e) {
 gesture_lay.onmouseup = function (e) {
     var difference_x = Math.abs(start_x - e.clientX);
     var difference_y = Math.abs(start_y - e.clientY);
-    console.log("x(" + start_x + ", " + e.clientX + ", " + difference_x + ") y(" + start_y + ", " + e.clientY + ", " + difference_y + ")");
     if (difference_x < click_threshold && difference_y < click_threshold) {
-//        parent_folder();
         console.log("click " + window.innerWidth);
     } else if (Math.abs(difference_x - difference_y) > swipe_threshold) {
-//        full_screen()
         if (difference_x < difference_y) {
             if (start_y < e.clientY) {
-                console.log("swipe d");
+                parent_folder();
             } else {
-                console.log("swipe u");
+                full_screen()
             }
         } else {
             if (start_x < e.clientX) {
