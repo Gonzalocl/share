@@ -159,26 +159,34 @@ var swipe_threshold = 50;
 
 var start_x;
 var start_y;
+var end_x;
+var end_y;
 
-gesture_lay.onmousedown = function (e) {
-    start_x = e.clientX;
-    start_y = e.clientY;
+gesture_lay.ontouchstart = function (e) {
+    start_x = e.touches[0].clientX;
+    start_y = e.touches[0].clientY;
 };
 
-gesture_lay.onmouseup = function (e) {
-    var difference_x = Math.abs(start_x - e.clientX);
-    var difference_y = Math.abs(start_y - e.clientY);
+gesture_lay.ontouchmove = function (e) {
+    end_x = e.touches[0].clientX;
+    end_y = e.touches[0].clientY;
+};
+
+gesture_lay.ontouchend = function (e) {
+    var difference_x = Math.abs(start_x - end_x);
+    var difference_y = Math.abs(start_y - end_y);
     if (difference_x < click_threshold && difference_y < click_threshold) {
+        full_screen()
         console.log("click " + window.innerWidth);
     } else if (Math.abs(difference_x - difference_y) > swipe_threshold) {
         if (difference_x < difference_y) {
-            if (start_y < e.clientY) {
+            if (start_y < end_y) {
                 parent_folder();
             } else {
                 full_screen()
             }
         } else {
-            if (start_x < e.clientX) {
+            if (start_x < end_x) {
                 console.log("swipe l");
             } else {
                 console.log("swipe r");
