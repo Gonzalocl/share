@@ -1,5 +1,7 @@
 
 
+var timeout_seconds = 3;
+
 var img_index;
 var img_list;
 var img_dirname;
@@ -125,6 +127,32 @@ function prev_img() {
     show_img_file(img_dirname + "/" + img_list[img_index]);
 }
 
+var playing = false;
+
+function img_show_playing() {
+    if (playing) {
+        next_img();
+        setTimeout(img_show_playing, timeout_seconds*1000);
+    }
+}
+
+function img_show_play() {
+    playing = true;
+    setTimeout(img_show_playing, timeout_seconds*1000);
+}
+
+function img_show_pause() {
+    playing = false;
+}
+
+function img_show_play_pause() {
+    if (playing) {
+        img_show_pause();
+    } else {
+        img_show_play();
+    }
+}
+
 // from
 // https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
 document.getElementById("full_screen").onclick = full_screen;
@@ -194,6 +222,8 @@ var end_y;
 gesture_lay.ontouchstart = function (e) {
     start_x = e.touches[0].clientX;
     start_y = e.touches[0].clientY;
+    end_x = e.touches[0].clientX;
+    end_y = e.touches[0].clientY;
 };
 
 gesture_lay.ontouchmove = function (e) {
@@ -207,34 +237,50 @@ gesture_lay.ontouchend = function (e) {
     if (difference_x < click_threshold && difference_y < click_threshold) {
         if (start_x < window.innerWidth/3) {
             console.log("click l");
+//            alert("click l");
+            img_show_pause();
             prev_img();
         } else if (start_x > window.innerWidth/3*2) {
             console.log("click r");
+//            alert("click r");
+            img_show_pause();
             next_img();
         } else {
             console.log("click c");
+//            alert("click c");
+            img_show_play_pause();
         }
     } else if (Math.abs(difference_x - difference_y) > swipe_threshold) {
         if (difference_x < difference_y) {
             if (start_y < end_y) {
                 console.log("swipe d");
+//                alert("swipe d");
+                img_show_pause();
                 parent_folder();
             } else {
                 console.log("swipe u");
+//                alert("swipe u");
+                img_show_pause();
                 full_screen()
             }
         } else {
             if (start_x < end_x) {
                 console.log("swipe r");
+//                alert("swipe r");
+                img_show_pause();
                 prev_img();
             } else {
                 console.log("swipe l");
+//                alert("swipe l");
+                img_show_pause();
                 next_img();
             }
         }
     } else {
+        img_show_pause();
         console.log("gesture unrecognised");
+//        alert("gesture unrecognised");
     }
 };
 
-gesture_lay.onclick = parent_folder;
+//gesture_lay.onclick = parent_folder;
