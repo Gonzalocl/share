@@ -1,5 +1,8 @@
 
 
+var img_index;
+var img_list = [];
+
 function folder_click(dirname, filename) {
     if (dirname == "/") {
         show_dir("/" + filename);
@@ -8,11 +11,10 @@ function folder_click(dirname, filename) {
     }
 }
 
-function img_file_click(dirname, filename) {
-    show_img_file(dirname + "/" + filename);
+function img_file_click(dirname, img_i) {
+    show_img_file(dirname + "/" + img_list[img_i]);
+    img_index = img_i;
 }
-
-var img_list = [];
 
 function show_dir(path) {
     var request = new XMLHttpRequest();
@@ -41,6 +43,7 @@ function show_dir(path) {
 
             document.getElementById("controls").style.display = "block";
 
+            img_list = [];
             for (d in data.list) {
 
                 var item_div = document.createElement("div");
@@ -60,12 +63,11 @@ function show_dir(path) {
                 name_div.innerHTML = data.list[d].path;
                 item_div.appendChild(name_div);
 
-
                 if (data.list[d].type == "00_folder") {
                     item_div.setAttribute("onClick", 'folder_click("' + path + '", "' + data.list[d].path + '")');
                 } else if (data.list[d].type == "01_img_file") {
-                    item_div.setAttribute("onClick", 'img_file_click("' + path + '", "' + data.list[d].path + '")');
-                    img_list.push(data.list[d].path);
+                    console.log();
+                    item_div.setAttribute("onClick", 'img_file_click("' + path + '", ' + (img_list.push(data.list[d].path)-1) + ')');
                 }
             }
             document.getElementById('full_dirname').innerHTML = path;
