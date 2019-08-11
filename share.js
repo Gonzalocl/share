@@ -12,12 +12,13 @@ function img_file_click(dirname, filename) {
     show_img_file(dirname + "/" + filename);
 }
 
+var img_list = [];
+
 function show_dir(path) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
-            console.log(JSON.stringify(data.list));
             data.list.sort(function (a, b) {
                 if (a.type == b.type) {
                     if (a.path < b.path) {
@@ -31,7 +32,6 @@ function show_dir(path) {
                     return 1;
                 }
             });
-            console.log(JSON.stringify(data.list));
 
             var img_show_div = document.getElementById('img_show');
             img_show_div.innerHTML = "";
@@ -65,6 +65,7 @@ function show_dir(path) {
                     item_div.setAttribute("onClick", 'folder_click("' + path + '", "' + data.list[d].path + '")');
                 } else if (data.list[d].type == "01_img_file") {
                     item_div.setAttribute("onClick", 'img_file_click("' + path + '", "' + data.list[d].path + '")');
+                    img_list.push(data.list[d].path);
                 }
             }
             document.getElementById('full_dirname').innerHTML = path;
