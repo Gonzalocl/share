@@ -53,6 +53,7 @@ function show_dir(path) {
                 }
             }
             document.getElementById('full_dirname').innerHTML = path;
+            unset_gestures();
         }
     };
     request.open("POST", "share_list_files", true);
@@ -78,6 +79,7 @@ function show_img_file(path) {
     img_show_div.appendChild(img_file);
 
     document.getElementById('full_dirname').innerHTML = path;
+    set_gestures();
 }
 
 show_dir("/links");
@@ -96,7 +98,8 @@ function parent_folder() {
 
 // from
 // https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
-document.getElementById("full_screen").onclick = function(){
+document.getElementById("full_screen").onclick = full_screen;
+function full_screen() {
   // if already full screen; exit
   // else go fullscreen
   if (
@@ -128,3 +131,53 @@ document.getElementById("full_screen").onclick = function(){
   }
 };
 
+function set_gestures() {
+    var gesture_lay = document.getElementById('gesture_lay');
+    gesture_lay.style.display = "block";
+}
+
+function unset_gestures() {
+    var gesture_lay = document.getElementById('gesture_lay');
+    gesture_lay.style.display = "none";
+}
+
+var gesture_lay = document.getElementById('gesture_lay');
+
+// TODO make this window size dependent
+var click_threshold = 20;
+var swipe_threshold = 50;
+
+var start_x;
+var start_y;
+
+gesture_lay.onmousedown = function (e) {
+    start_x = e.clientX;
+    start_y = e.clientY;
+};
+
+gesture_lay.onmouseup = function (e) {
+    var difference_x = Math.abs(start_x - e.clientX);
+    var difference_y = Math.abs(start_y - e.clientY);
+    console.log("x(" + start_x + ", " + e.clientX + ", " + difference_x + ") y(" + start_y + ", " + e.clientY + ", " + difference_y + ")");
+    if (difference_x < click_threshold && difference_y < click_threshold) {
+//        parent_folder();
+        console.log("click " + window.innerWidth);
+    } else if (Math.abs(difference_x - difference_y) > swipe_threshold) {
+//        full_screen()
+        if (difference_x < difference_y) {
+            if (start_y < e.clientY) {
+                console.log("swipe d");
+            } else {
+                console.log("swipe u");
+            }
+        } else {
+            if (start_x < e.clientX) {
+                console.log("swipe l");
+            } else {
+                console.log("swipe r");
+            }
+        }
+    } else {
+        console.log("gesture unrecognised");
+    }
+};
