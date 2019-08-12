@@ -19,6 +19,10 @@ function img_file_click(dirname, img_i) {
     img_index = img_i;
 }
 
+function vid_file_click(dirname, filename) {
+    console.log("vid_file_click");
+}
+
 function show_dir(path) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -71,6 +75,8 @@ function show_dir(path) {
                     item_div.setAttribute("onClick", 'folder_click("' + path + '", "' + data.list[d].path + '")');
                 } else if (data.list[d].type == "01_img_file") {
                     item_div.setAttribute("onClick", 'img_file_click("' + path + '", ' + (img_list.push(data.list[d].path)-1) + ')');
+                } else if (data.list[d].type == "02_vid_file") {
+                    item_div.setAttribute("onClick", 'vid_file_click("' + path + '", "' + data.list[d].path + '")');
                 }
             }
             document.getElementById('full_dirname').innerHTML = path;

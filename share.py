@@ -9,6 +9,7 @@ from PIL import Image
 port = 8080
 
 img_file_ext = ["jpg", "jpeg", "png"]
+vid_file_ext = ["mp4", "avi", "mkv", "webm"]
 
 thumbnail_size = (512, 512)
 
@@ -120,9 +121,11 @@ class RequestHandler(BaseHTTPRequestHandler):
             if os.path.isfile(full_path):
               if full_path.split(".")[-1].lower() in img_file_ext:
                 response["list"].append({"path": d, "thumbnail": thumbnail_cache.get_thumbnail_name(full_path), "type": "01_img_file"})
+              elif full_path.split(".")[-1].lower() in vid_file_ext:
+                response["list"].append({"path": d, "thumbnail": "", "type": "02_vid_file"})
               else:
                 # TODO unknown file format thumbnail
-                response["list"].append({"path": d, "thumbnail": "", "type": "02_file"})
+                response["list"].append({"path": d, "thumbnail": "", "type": "03_file"})
             else:
               response["list"].append({"path": d, "thumbnail": find_thumbnail(full_path), "type": "00_folder"})
 
