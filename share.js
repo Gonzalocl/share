@@ -20,7 +20,7 @@ function img_file_click(dirname, img_i) {
 }
 
 function vid_file_click(dirname, filename) {
-    console.log("vid_file_click");
+    show_vid_file(dirname + "/" + filename);
 }
 
 function show_dir(path) {
@@ -109,6 +109,26 @@ function show_img_file(path) {
     document.getElementById('full_dirname').innerHTML = path;
     set_gestures();
     full_screen_on();
+}
+
+function show_vid_file(path) {
+    var select_div = document.getElementById('select');
+    select_div.innerHTML = "";
+
+    var img_show_div = document.getElementById('img_show');
+    img_show_div.innerHTML = "";
+
+    document.getElementById("controls").style.display = "none";
+
+    var vid_file = document.createElement("video");
+    vid_file.className = "vid_show";
+    vid_file.setAttribute("src", encodeURIComponent(path.slice(1)));
+    vid_file.setAttribute("controls", true);
+    img_show_div.appendChild(vid_file);
+
+    document.getElementById('full_dirname').innerHTML = path;
+//    set_gestures();
+//    full_screen_on();
 }
 
 show_dir("/links");
