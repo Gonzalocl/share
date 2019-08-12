@@ -124,6 +124,7 @@ function show_vid_file(path) {
     vid_file.className = "vid_show";
     vid_file.setAttribute("src", encodeURIComponent(path.slice(1)));
     vid_file.setAttribute("controls", true);
+    vid_file.setAttribute("autoplay", true);
     img_show_div.appendChild(vid_file);
 
     document.getElementById('full_dirname').innerHTML = path;
