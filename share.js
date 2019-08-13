@@ -128,8 +128,8 @@ function show_vid_file(path) {
     img_show_div.appendChild(vid_file);
 
     document.getElementById('full_dirname').innerHTML = path;
-//    set_gestures();
-//    full_screen_on();
+    set_gestures();
+    full_screen_on();
 }
 
 show_dir("/links");
