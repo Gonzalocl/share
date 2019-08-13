@@ -316,3 +316,8 @@ gesture_lay.ontouchend = function (e) {
 };
 
 //gesture_lay.onclick = parent_folder;
+document.onkeydown = function(e) {
+    if (e.key == "Escape") {
+        parent_folder();
+    }
+}
