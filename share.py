@@ -1,5 +1,5 @@
 import os
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import urllib.parse
 import tempfile
@@ -157,10 +157,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
       else:
         self.send_error(404, "File Not Found")
+    print("tre end post")
 
 
 
-server = HTTPServer(('', port), RequestHandler)
+server = ThreadingHTTPServer(('', port), RequestHandler)
 server.serve_forever()
 
 
