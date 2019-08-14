@@ -359,7 +359,7 @@ gesture_lay.ontouchend = function (e) {
     }
 };
 
-document.onkeydown = function(e) {
+document.onkeyup = function(e) {
 //    console.log(e.key);
     if (e.key == "Escape") {
         parent_folder();
