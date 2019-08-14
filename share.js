@@ -113,6 +113,7 @@ function show_img_file(path0, path1) {
     img_file1.style.display = "none";
 
     img_show0 = true;
+    img_index++;
 
     document.getElementById('full_dirname').innerHTML = path0;
     set_gestures();
@@ -156,7 +157,24 @@ function parent_folder() {
 
 function next_img() {
     img_index = (img_index + 1) % img_list.length;
-    show_img_file(img_dirname + "/" + img_list[img_index]);
+    if (img_show0) {
+        var img_file0 = document.getElementById('img_show0');
+        img_file0.style.display = "none";
+        img_file0.src = encodeURIComponent((img_dirname + "/" + img_list[img_index]).slice(1));
+        // TODO set onload
+
+        var img_file1 = document.getElementById('img_show1');
+        img_file1.style.display = "block";
+    } else {
+        var img_file1 = document.getElementById('img_show1');
+        img_file1.style.display = "none";
+        img_file1.src = encodeURIComponent((img_dirname + "/" + img_list[img_index]).slice(1));
+        // TODO set onload
+
+        var img_file0 = document.getElementById('img_show0');
+        img_file0.style.display = "block";
+    }
+    img_show0 = !img_show0;
 }
 
 function prev_img() {
