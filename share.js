@@ -341,9 +341,14 @@ gesture_lay.ontouchend = function (e) {
     }
 };
 
-//gesture_lay.onclick = parent_folder;
 document.onkeydown = function(e) {
+//    console.log(e.key);
     if (e.key == "Escape") {
         parent_folder();
+    } else if (e.key == "ArrowRight") {
+        next_img();
+    } else if (e.key == "ArrowLeft") {
+        prev_img();
     }
 }
+
