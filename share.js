@@ -5,6 +5,7 @@ var timeout_seconds = 3;
 var img_index;
 var img_list;
 var img_dirname;
+var img_show0;
 
 function folder_click(dirname, filename) {
     if (dirname == "/") {
@@ -15,8 +16,8 @@ function folder_click(dirname, filename) {
 }
 
 function img_file_click(dirname, img_i) {
-    show_img_file(dirname + "/" + img_list[img_i]);
     img_index = img_i;
+    show_img_file(dirname + "/" + img_list[img_index], dirname + "/" + img_list[(img_index + 1) % img_list.length]);
 }
 
 function vid_file_click(dirname, filename) {
@@ -92,7 +93,7 @@ function show_dir(path) {
     full_screen_off();
 }
 
-function show_img_file(path) {
+function show_img_file(path0, path1) {
     var select_div = document.getElementById('select');
     select_div.innerHTML = "";
 
@@ -101,11 +102,19 @@ function show_img_file(path) {
 
     document.getElementById("controls").style.display = "none";
 
-    var img_file = document.getElementById('img_show0');
-    img_file.className = "img_show";
-    img_file.src = encodeURIComponent(path.slice(1));
+    var img_file0 = document.getElementById('img_show0');
+    img_file0.className = "img_show";
+    img_file0.src = encodeURIComponent(path0.slice(1));
+    img_file0.style.display = "block";
 
-    document.getElementById('full_dirname').innerHTML = path;
+    var img_file1 = document.getElementById('img_show1');
+    img_file1.className = "img_show";
+    img_file1.src = encodeURIComponent(path1.slice(1));
+    img_file1.style.display = "none";
+
+    img_show0 = true;
+
+    document.getElementById('full_dirname').innerHTML = path0;
     set_gestures();
     full_screen_on();
 }
