@@ -155,6 +155,7 @@ function parent_folder() {
     show_dir(path);
 }
 
+// TODO fix bug inertia?
 function next_img() {
     img_index = (img_index + 1) % img_list.length;
     if (img_show0) {
@@ -178,8 +179,25 @@ function next_img() {
 }
 
 function prev_img() {
-    img_index = (img_index - 1) % img_list.length;
-    show_img_file(img_dirname + "/" + img_list[img_index]);
+    img_index = (img_index - 1 + img_list.length) % img_list.length;
+    if (img_show0) {
+        var img_file0 = document.getElementById('img_show0');
+        img_file0.style.display = "none";
+        img_file0.src = encodeURIComponent((img_dirname + "/" + img_list[img_index]).slice(1));
+        // TODO set onload
+
+        var img_file1 = document.getElementById('img_show1');
+        img_file1.style.display = "block";
+    } else {
+        var img_file1 = document.getElementById('img_show1');
+        img_file1.style.display = "none";
+        img_file1.src = encodeURIComponent((img_dirname + "/" + img_list[img_index]).slice(1));
+        // TODO set onload
+
+        var img_file0 = document.getElementById('img_show0');
+        img_file0.style.display = "block";
+    }
+    img_show0 = !img_show0;
 }
 
 var playing = false;
